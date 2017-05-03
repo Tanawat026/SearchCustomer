@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Customer Detail</title>
+  </head>
+  <body>
+    <center>
+    <h1>Customers Detail</h1>
+
+      <table class="w3-table-all" id="result">
+
+      </table>
+
+  </center>
+  </body>
+  <script type="text/javascript">
+      $.urlParam = function(name){
+           var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+           return results[1] || 0;
+       }
+      $(function(){
+        var apiURL = "http://977377webapicustomer.azurewebsites.net/api/v1/Customers/";
+        apiURL += $.urlParam("cid");
+      //  var apiURLAddess ="http://977-377demoapi.azurewebsites.net/api/CustomerAddresses/29486"
+        //apiURLAddess += $.urlParam("cid");
+        $.getJSON(apiURL, function(data) {
+          var name = "";
+                   name += data.Title;
+                   name += (" "+data.FirstName);
+                   if(data.MiddleName!=null){
+                     name += (" "+data.MiddleName);
+                   }
+                   name += (" "+data.LastName);
+             var row = "<tr><td class=\"w3-teal\"> Customer ID </td><td>" + data.CustomerID + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\"> Name </td><td>" + name + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\"> Sales Person </td><td>" + data.SalesPerson + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\"> Company Name </td><td>" + data.CompanyName + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\"> Email </td><td>" + data.EmailAddress + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\"> Phone </td><td>" + data.Phone + "</td></tr>"
+             $("#result").append(row);
+        });
+      });
+  </script>
+</html>

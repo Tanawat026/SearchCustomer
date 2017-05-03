@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<title>Adventure Works LT</title>
+  </head>
+
+  <body>
+    <center>
+    <h1> Adventure Works</h1>
+    <h4>You can search product name, customer name and customer company. </h4>
+    <select id ="TypeSelect">
+      <option value="product">Product</option>
+      <option value="customer">Customer</option>
+      <option value="customerCompany">Customer Company</option>
+    </select>
+    <input type="text" name="" value="" id="nameFromSearch">
+    <button class="w3-button w3-green" type="button" name="button" id="search">Search</button>
+
+      <br>
+      <table  class="w3-table-all" id="result">
+      </table>
+
+    </center>
+  </body>
+  <script>
+   var apiURLCustomer = "http://customerservices.azurewebsites.net/Customers/Search/CustomerName/";
+   var apiURLCustomerCompany = "http://customerservices.azurewebsites.net/Customers/Search/CustomerCompany/";
+   var apiURLProduct = "http://977377searchproducts.azurewebsites.net/api/v1/Search/Products/ProductName/";
+  $("#search").click(function() {
+    $("#result").empty();
+    var answer=document.getElementById("TypeSelect");
+    if(answer[answer.selectedIndex].value=="product"){
+      apiURLProduct += $("#nameFromSearch").val();
+        $.getJSON(apiURLProduct, function(data) {
+           $.each(data, function(index, item) {
+             //console.log(item);
+             var cid_link = "<a href='ProductDetail.html?cid=" + item.ProductID + "'>View Dedail</a>"
+             var row = "<p>" + cid_link + "," + item.Name +"</p>"
+             var row = "<tr>"+
+                      "<td>" + item.ProductID + "</td>"+
+                      "<td>" + item.Name + "</td>"+
+                      "<td>" + item.ListPrice +"</td>"+
+                      "<td>" + cid_link +"</td>"+
+                    "</tr>";
+                    if(index == 0){
+                      var tableHead = "<tr class=\"w3-blue\">"+
+                                      "<td>ProductID</td>"+
+                                      "<td>Name</td>"+
+                                      "<td>List Price</td>"+
+                                      "<td>View</td>"+
+                                      "</tr>";
+                      $("#result").append(tableHead+row);
+                    }else{
+                      $("#result").append(row);
+                    }
+           });
+        });
+    //alert("Product");
+  }else if (answer[answer.selectedIndex].value=="customer"){
+      apiURLCustomer += $("#nameFromSearch").val();
+        $.getJSON(apiURLCustomer, function(data) {
+           $.each(data, function(index, obj) {
+            var cid_link = "<a href='CustomerDetail.html?cid=" + obj.CustomerID + "'>View Dedail</a>"
+             var name = "";
+                      name += obj.Title;
+                      name += (" "+obj.FirstName);
+                      if(obj.MiddleName!=null){
+                        name += (" "+obj.MiddleName);
+                      }
+                      name += (" "+obj.LastName);
+                      var row = "<tr>"+
+                                  "<td>" + obj.CustomerID + "</td>"+
+                                  "<td>" + name + "</td>"+
+                                  "<td>" + obj.CompanyName + "</td>"+
+                                  "<td>" + obj.EmailAddress + "</td>"+
+                                  "<td>" + obj.Phone + "</td>"+
+                                  "<td>" + cid_link +"</td>"+
+                                "</tr>";
+                        if(index == 0){
+                          var tableHead = "<tr class=\"w3-blue\">"+
+                                          "<td>ID</td>"+
+                                          "<td>Name</td>"+
+                                          "<td>Company</td>"+
+                                          "<td>Email</td>"+
+                                          "<td>Phone</td>"+
+                                          "<td>View</td>"+
+                                          "</tr>";
+                          $("#result").append(tableHead+row);
+                        }else{
+                          $("#result").append(row);
+                        }
+           });
+        });
+      }else{
+        apiURLCustomerCompany  += $("#nameFromSearch").val();
+          $.getJSON(apiURLCustomerCompany, function(data) {
+             $.each(data, function(index, obj) {
+              var cid_link = "<a href='CustomerDetail.html?cid=" + obj.CustomerID + "'>View Dedail</a>"
+               var name = "";
+                        name += obj.Title;
+                        name += (" "+obj.FirstName);
+                        if(obj.MiddleName!=null){
+                          name += (" "+obj.MiddleName);
+                        }
+                        name += (" "+obj.LastName);
+                        var row = "<tr>"+
+                                    "<td>" + obj.CustomerID + "</td>"+
+                                    "<td>" + name + "</td>"+
+                                    "<td>" + obj.CompanyName + "</td>"+
+                                    "<td>" + obj.EmailAddress + "</td>"+
+                                    "<td>" + obj.Phone + "</td>"+
+                                    "<td>" + cid_link +"</td>"+
+                                  "</tr>";
+                          if(index == 0){
+                            var tableHead = "<tr class=\"w3-blue\">"+
+                                            "<td>ID</td>"+
+                                            "<td>Name</td>"+
+                                            "<td>Company</td>"+
+                                            "<td>Email</td>"+
+                                            "<td>Phone</td>"+
+                                            "<td>View</td>"+
+                                            "</tr>";
+                            $("#result").append(tableHead+row);
+                          }else{
+                            $("#result").append(row);
+                          }
+             });
+          });
+      }
+        });
+</script>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.js"
+    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Product Detail</title>
+  </head>
+  <body>
+    <center>
+    <h1>Product Detail</h1>
+
+      <table class="w3-table-all" id="result">
+
+      </table>
+
+  </center>
+  </body>
+  <script type="text/javascript">
+      $.urlParam = function(name){
+           var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+           return results[1] || 0;
+       }
+      $(function(){
+        var apiURL = "http://977377searchproducts.azurewebsites.net/api/v1/Search/Products/";
+        apiURL += $.urlParam("cid");
+        $.getJSON(apiURL, function(data) {
+             var row = "<tr><td class=\"w3-teal\">Product ID </td><td>" + data.ProductID + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Name </td><td>" + data.Name + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Product Number </td><td>" + data.ProductNumber + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Color </td><td>" + data.Color + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Standard Cost </td><td>" + data.StandardCost + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">List Price </td><td>" + data.ListPrice + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Size </td><td>" + data.Size + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Sell Start Date </td><td>" + data.SellStartDate + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Sell End Date </td><td>" + data.SellEndDate + "</td></tr>"
+             row += "<tr><td class=\"w3-teal\">Size </td><td>" + data.Size + "</p>"
+             $("#result").append(row);
+        });
+      });
+  </script>
+</html>
